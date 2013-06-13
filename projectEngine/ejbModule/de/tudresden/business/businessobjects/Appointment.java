@@ -40,7 +40,7 @@ public class Appointment implements Serializable
 	public Appointment() {
 	}
 	
-	Appointment(Integer id, Date startDate, Date endDate, String title, String description, String appointmentType, Boolean privateAppointment, List<Schedule> schedules)
+	public Appointment(Integer id, Date startDate, Date endDate, String title, String description, String appointmentType, Boolean privateAppointment, List<Schedule> schedules)
 	{
 		this.id = id;
 		this.startDate = startDate;
@@ -48,6 +48,15 @@ public class Appointment implements Serializable
 		this.description = description;
 		this.privateAppointment = privateAppointment;
 		this.schedules = schedules;
+	}
+	
+	public Appointment(Integer id, Date startDate, Date endDate, String title, String description, String appointmentType, Boolean privateAppointment)
+	{
+		this.id = id;
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.description = description;
+		this.privateAppointment = privateAppointment;
 	}
 	
 	public Integer getId() {
@@ -111,6 +120,15 @@ public class Appointment implements Serializable
 	}
 	public void setSchedules(List<Schedule> schedules) {
 		this.schedules = schedules;
+	}
+	
+	public String getPrivateText()
+	{
+		if(this.privateAppointment)
+		{
+			return "True";
+		}
+		return "False";
 	}
 
 

@@ -1,6 +1,9 @@
 
 package de.tudresden.bean;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -9,6 +12,8 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
 import de.tudresden.business.beans.UserManagementBean;
+import de.tudresden.business.businessobjects.Appointment;
+import de.tudresden.business.businessobjects.AppointmentType;
 import de.tudresden.business.businessobjects.User;
 
 @ManagedBean(name="login")
@@ -42,7 +47,7 @@ public class LoginBean
 	}
 	
 	public void login() throws IOException {
-		User currentUser = userManagement.autenticateUser(userName, password);
+		User currentUser = userManagement.getUserByUsernameAndPassword(userName, password);
 		if (currentUser != null) {
 			System.out.println("Here goes nothing!!");
 			FacesContext.getCurrentInstance().getExternalContext()

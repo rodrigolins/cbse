@@ -1,0 +1,61 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<h:html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<f:view contentType="text/html">
+
+	<h:head>
+		<title>Appointment List</title>
+		<meta content='text/html; charset=UTF-8' http-equiv="Content-Type" />
+		<link type="text/css" rel="stylesheet"
+			href="#{request.contextPath}/css/default.css" />
+		<link type="text/css" rel="stylesheet"
+			href="#{request.contextPath}/css/syntaxhighlighter.css" />
+	</h:head>
+
+	<h:body>
+		<h:form>
+			<p:menubar>
+				<p:menuitem url="http://google.com" value="Appointment List"></p:menuitem>
+				<p:menuitem url="http://google.com" value="New Appointment"></p:menuitem>
+				<p:menuitem url="http://google.com" value="Logout"></p:menuitem>
+			</p:menubar>
+		</h:form>
+
+		<div class="ui-growl">
+			<p:growl id="msg" showDetail="true" rendered="true" life="5000" />
+		</div>
+
+		<h:form>
+			<p:dataTable var="appointment" value="#{login.userAppointments}">
+				<p:column width="50" headerText="Title">
+					<h:outputText value="#{appointment.title}" />
+				</p:column>
+				<p:column width="50" headerText="Description">
+					<h:outputText value="#{appointment.description}" />
+				</p:column>
+				<p:column headerText="Start Date">
+					<h:outputText value="#{appointment.startDate}" />
+				</p:column>
+				<p:column headerText="End Date">
+					<h:outputText value="#{appointment.endDate}" />
+				</p:column>
+				<p:column headerText="Private">
+					<h:outputText value="#{appointment.privateText}" />
+				</p:column>
+				<p:column headerText="Delete">
+					<p:commandButton id="deleteButton" value="Delete" ajax="false"
+						actionListener="#{login.deleteAppointment(appointment.id)}">
+
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+		</h:form>
+
+
+	</h:body>
+</f:view>
+</h:html>
