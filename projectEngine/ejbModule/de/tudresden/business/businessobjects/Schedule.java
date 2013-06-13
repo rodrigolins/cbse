@@ -71,4 +71,8 @@ public class Schedule implements Serializable
 	public String toString() {
 		return "Schedule [id=" + id + ", user=" + user + "]";
 	}
+
+	public void addAppointment(Appointment appointment) {
+		appointments.add(appointment);
+	}
 }
