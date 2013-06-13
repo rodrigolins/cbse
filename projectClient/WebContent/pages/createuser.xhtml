@@ -1,0 +1,45 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<h:html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<f:view contentType="text/html">
+	<h:head>
+		<title>..::.. Add user ..::..</title>
+		<meta content='text/html; charset=UTF-8' http-equiv="Content-Type" />
+		<link type="text/css" rel="stylesheet"
+			href="#{request.contextPath}/css/default.css" />
+		<link type="text/css" rel="stylesheet"
+			href="#{request.contextPath}/css/syntaxhighlighter.css" />
+		<ui:insert name="head"></ui:insert>
+	</h:head>
+
+	<h:body>
+		<div class="ui-growl">
+			<p:growl id="msg" showDetail="true" rendered="true" life="5000" />
+		</div>
+		<h:form>
+			<div id="login">
+				<p:panel id="panel" header="Login">
+					<h:panelGrid columns="2">
+						<h:outputText value="Username: " />
+						<p:inputText required="true" label="user" value="#{login.userName}" />
+						<h:outputText value="Password: " />
+						<p:password required="true" label="password" value="#{login.password}" />
+						<h:outputText value="Repeat password: " />
+						<p:password required="true" label="password" value="#{login.repeatPassword}" />
+						<h:outputText value="email: " />
+						<p:inputText label="email" value="#{login.email}" />
+					</h:panelGrid>
+					<p:commandButton type="submit" value="Login" actionListener="#{login.register}" ajax="false" update="msg" />
+					<p class="copyright">
+						<a href="#{request.contextPath}/pages/createuser.xhtml">Register</a>
+						<a href="#{request.contextPath}/pages/listusers.xhtml">Register</a>
+					</p>
+				</p:panel>
+			</div>
+		</h:form>
+	</h:body>
+</f:view>
+</h:html>
