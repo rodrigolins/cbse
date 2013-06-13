@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<h:html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:head>
+		<title>Schedule Appointment</title>
+		<meta content='text/html; charset=UTF-8' http-equiv="Content-Type" />
+		<link type="text/css" rel="stylesheet"
+			href="#{request.contextPath}/css/default.css" />
+		<link type="text/css" rel="stylesheet"
+			href="#{request.contextPath}/css/syntaxhighlighter.css" />
+		<ui:insert name="head"></ui:insert>
+	</h:head>
+	<h:body>
+		<div class="ui-growl">
+			<p:growl id="msg" showDetail="true" rendered="true" life="5000" />
+		</div>
+		<p:panel header="Schedule Appointment"> 
+			<h:panelGrid columns="2" columnClasses="label,value" styleClass="grid">
+				<h:outputText value="Title:"/>
+				<p:inputText required="true" label="Title" value="#{ScheduleAppointment.title}"/>
+				
+				<h:outputText value="Start Time:"/>
+				<p:calendar value="#{ScheduleAppointment.startDateTime}" pattern="MM/dd/yyyy HH:mm">
+				 		
+				 </p:calendar>
+				 
+				<h:outputText value="End Time"/>
+				<p:calendar value="#{ScheduleAppointment.endDateTime}" pattern="MM/dd/yyyy HH:mm">
+   						
+				</p:calendar>
+				
+				<h:outputText value=" Appointment Type:"/>
+				<p:selectOneMenu value="#{ScheduleAppointment.appointmentType}">  
+            		<f:selectItem itemLabel="--Select One--" itemValue="0" />  
+            		<f:selectItem itemLabel="Blocked" itemValue="Blocked" />  
+            		<f:selectItem itemLabel="Free" itemValue="Free" />  
+            		<f:selectItem itemLabel="Potentially Blocked" itemValue="PotentiallyBlocked" />
+            		<f:selectItem itemLabel="Away" itemValue="Away" />
+        		</p:selectOneMenu>
+				<h:outputText value="Invite:"></h:outputText>
+
+			<p:dataTable id="userTable"  var="user" value="#{ScheduleAppointment.invitees}" rowKey="#{user.id}" 
+				selection="#{ScheduleAppointment.invited}" selectionMode="multiple">
+				<f:facet name="header">  
+            			List of all the Users  
+        			</f:facet>
+        			<p:column headerText="id">  
+            				#{user.id}  
+        			</p:column>
+				<p:column headerText="userName">  
+            				#{user.userName}  
+        			</p:column>
+			</p:dataTable>
+
+			<h:outputText value="Notes:"/>
+				<p:inputTextarea rows="6" cols="33" value="#{ScheduleAppointment.notes}"/>
+				
+				<h:outputText value="Private:"/>
+				<p:selectOneRadio id="options" value="#{ScheduleAppointment.private}">  
+            		<f:selectItem itemLabel="Yes" itemValue="true" />  
+            		<f:selectItem itemLabel="No" itemValue="false" />  
+        		</p:selectOneRadio>
+        		<f:facet name="footer">
+        			<p:commandButton type="button" value="Submit" actionListener="#{ScheduleAppointment.submit}" ajax="false"/>
+        			<p:commandButton type="button" value="Cancel" />
+        		</f:facet>
+			</h:panelGrid>
+		</p:panel>
+	</h:body>
+</h:html>

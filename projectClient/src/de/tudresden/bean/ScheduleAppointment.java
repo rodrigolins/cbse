@@ -6,11 +6,9 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
-
-import org.jboss.security.auth.spi.Users;
 
 import de.tudresden.business.beans.UserManagementBean;
+import de.tudresden.business.businessobjects.User;
 
 @ManagedBean(name = "ScheduleAppointment")
 @SessionScoped
@@ -22,14 +20,14 @@ public class ScheduleAppointment {
 	private String Notes;
 	private boolean Private;
 	private String AppointmentType;
-	private List<Users> Invitees;
-	private List<Users> Invited;
+	private List<User> Invitees;
+	private List<User> Invited;
 
 	@EJB
 	UserManagementBean userManagement;
 
 	public ScheduleAppointment() {
-		FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+		Invitees = userManagement.getAllUsers();
 	}
 
 	public boolean CheckDateConflict() {
@@ -108,11 +106,11 @@ public class ScheduleAppointment {
 		return AppointmentType;
 	}
 
-	public void setInvitees(List<Users> Invitees) {
+	public void setInvitees(List<User> Invitees) {
 		this.Invitees = Invitees;
 	}
 
-	public List<Users> getInvitees() {
+	public List<User> getInvitees() {
 		return Invitees;
 	}
 
