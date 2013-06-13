@@ -26,34 +26,33 @@ public class LoginBean
 	@EJB
 	UserManagementBean userManagement;
 
-	public LoginBean()
-	{
-//		this.logged = false;
+	private List<Appointment> appList;
+
+	public LoginBean() {
+		appList = new ArrayList<Appointment>();
+		Date currentDate = Calendar.getInstance().getTime();
+		for (int i = 0; i < 10; i++) {
+			Appointment testApp = new Appointment(i, currentDate, currentDate,
+					"Test title" + i, "test description" + i,
+					AppointmentType.BLOCKED, false);
+
+			appList.add(testApp);
+		}
+		System.out.println("Added appointment to List");
 	}
 	
-	public String login() throws IOException
-	{
-		User user = userManagement.getUserByUsernameAndPassword(userName, password);
-		Boolean authenticated = Boolean.FALSE;
-		
-		if(user != null)
-		{
-			authenticated = Boolean.TRUE;
+	public void login() throws IOException {
+		User currentUser = userManagement.autenticateUser(userName, password);
+		if (currentUser != null) {
+			System.out.println("Here goes nothing!!");
+			FacesContext.getCurrentInstance().getExternalContext()
+					.redirect("tasklist.xhtml");
+			this.setUser(currentUser);
+		} else {
+			System.out.println("Returned User is null");
 		}
-
-		if (authenticated)
-		{
-			System.out.println("Redirecting to listusers.xhtml");
-		}
-		else
-		{
-			System.out.println("Access denied");
-		}
-		
-		// TODO This shit!
-		FacesContext.getCurrentInstance().getExternalContext().redirect("listusers.xhtml");
-		return null;
 	}
+
 	
 	public boolean register()
 	{
@@ -80,6 +79,22 @@ public class LoginBean
 	public List<User> getUserList()
 	{
 		return userManagement.getAllUsers();
+	}
+
+	public List<Appointment> getUserAppointments() {
+		return this.appList;
+	}
+
+	public void deleteAppointment(Integer appId) {
+		System.out.println("Deleting Appointment " + appId.toString());
+		for (int i = 0; i < this.appList.size(); i++) {
+			Appointment app = appList.get(i);
+			if (app.getId() == appId) {
+				System.out.println("Found Now Deleting");
+				appList.remove(i);
+				return;
+			}
+		}
 	}
 	
 	/*********************************/
