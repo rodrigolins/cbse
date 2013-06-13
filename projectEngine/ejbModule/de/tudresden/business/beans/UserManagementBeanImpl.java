@@ -88,14 +88,16 @@ public class UserManagementBeanImpl implements UserManagementBean
 		query.setParameter(2, password);
 		@SuppressWarnings("unchecked")
 		List<User> result = (List<User>) query.getResultList();
-		
-		if(result.size() > 1)
+		System.out.println("result size: " + result.size());
+		if(result.size() != 1)
 		{
-			System.out.println("More than one user with this username and password");
+			System.out.println("More than one user or no users at all with this username and password");
 			return null;
 		}
+		
 		User user = result.get(0);
 		return user;
+
 	}
 	
 	@Override

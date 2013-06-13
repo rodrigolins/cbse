@@ -30,7 +30,7 @@
 		</div>
 
 		<h:form>
-			<p:dataTable var="appointment" value="#{login.userAppointments}">
+			<p:dataTable var="appointment" value="#{showappointments.userAppointments}">
 				<p:column width="50" headerText="Title">
 					<h:outputText value="#{appointment.title}" />
 				</p:column>
@@ -48,8 +48,7 @@
 				</p:column>
 				<p:column headerText="Delete">
 					<p:commandButton id="deleteButton" value="Delete" ajax="false"
-						actionListener="#{login.deleteAppointment(appointment.id)}">
-
+						actionListener="#{showappointments.deleteAppointment(appointment.id)}">
 					</p:commandButton>
 				</p:column>
 			</p:dataTable>

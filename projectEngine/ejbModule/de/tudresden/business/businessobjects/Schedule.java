@@ -34,7 +34,7 @@ public class Schedule implements Serializable
 	List<Appointment> appointments;
 	
 	@OneToOne
-	@PrimaryKeyJoinColumn
+	@JoinColumn(name="user_id")
 	private User user;
 	
 	public Schedule() {

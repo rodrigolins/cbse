@@ -28,7 +28,6 @@ public class User implements Serializable
 	private String email;
 	
 	@OneToOne(mappedBy="user")
-	@PrimaryKeyJoinColumn
 	private Schedule schedule;
 	
 	public User()
