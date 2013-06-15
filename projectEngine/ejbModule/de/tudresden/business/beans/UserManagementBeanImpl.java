@@ -89,15 +89,19 @@ public class UserManagementBeanImpl implements UserManagementBean
 		@SuppressWarnings("unchecked")
 		List<User> result = (List<User>) query.getResultList();
 		System.out.println("result size: " + result.size());
-		if(result.size() != 1)
+		
+		if(result.size() == 0)
 		{
-			System.out.println("More than one user or no users at all with this username and password");
+			System.out.println("No users with this username and password");
 			return null;
+		}
+		if(result.size() > 1)
+		{
+			System.out.println("More than one user found with this username and password");
 		}
 		
 		User user = result.get(0);
 		return user;
-
 	}
 	
 	@Override

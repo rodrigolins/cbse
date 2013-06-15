@@ -25,7 +25,7 @@ public class LoginBean
 	
 	@EJB
 	UserManagementBean userManagement;
-
+	
 	public LoginBean()
 	{
 	}

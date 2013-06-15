@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -131,14 +132,14 @@ public class Appointment implements Serializable
 		return "False";
 	}
 
-
 	@Override
 	public String toString() {
 		return "Appointment [id=" + id + ", startDate=" + startDate
 				+ ", endDate=" + endDate + ", title=" + title
 				+ ", description=" + description + ", appointmentType="
 				+ appointmentType + ", privateAppointment="
-				+ privateAppointment + "]";
+				+ privateAppointment + ", schedules=" + schedules + "]";
 	}
+
 
 }

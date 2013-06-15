@@ -19,6 +19,7 @@ import de.tudresden.business.businessobjects.User;
  */
 @Stateful
 public class ScheduleManagementBeanImpl implements ScheduleManagementBean {
+	
 	@PersistenceContext
 	private EntityManager em;
 
@@ -32,8 +33,41 @@ public class ScheduleManagementBeanImpl implements ScheduleManagementBean {
 	 *            : The {@link Appointment} to be added to the user's schedule.
 	 */
 	public void createUserAppointment(User user, Appointment appointment) {
-		Schedule userSchedule = user.getSchedule();
-		userSchedule.addAppointment(appointment);
+		
+		if(user == null )
+		{
+			return;
+		}
+		System.out.println("1 step");
+		Appointment newAppointment = new Appointment();
+		newAppointment.setAppointmentType(appointment.getAppointmentType());
+		newAppointment.setDescription(appointment.getDescription());
+		newAppointment.setEndDate(appointment.getEndDate());
+		newAppointment.setPrivateAppointment(appointment.getPrivateAppointment());
+		newAppointment.setStartDate(appointment.getStartDate());
+		newAppointment.setTitle(appointment.getTitle());
+		System.out.println("2 Step - persisting the appointment");
+		em.persist(newAppointment);
+		
+		System.out.println("Getting user");
+		
+		Schedule userSchedule ;
+		System.out.println("3 Step - getting or creating the new schedule");
+		if(user.getSchedule() == null)
+		{
+			userSchedule = new Schedule();
+		}
+		else
+		{
+			userSchedule = user.getSchedule();
+		}
+		userSchedule.setUser(user);
+		
+		System.out.println("4 Step - Adding appointment in schedule");
+		System.out.println("Printing user schedule: " + userSchedule);
+		userSchedule.addAppointment(newAppointment);
+		System.out.println(newAppointment);
+		
 		System.out.println("Added new appointment to user schedule");
 		em.persist(userSchedule);
 		System.out.println("Sucessfully persisted the new appointment");
@@ -41,6 +75,12 @@ public class ScheduleManagementBeanImpl implements ScheduleManagementBean {
 
 	public void addUserInAppointment(User user, Appointment appointment) {
 		createUserAppointment(user, appointment);
+	}
+	
+	public void createScheduleForUser(User user, Schedule schedule)
+	{
+		schedule.setUser(user);
+		em.persist(schedule);
 	}
 
 	/**

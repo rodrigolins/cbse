@@ -15,7 +15,6 @@ import javax.faces.context.FacesContext;
 import de.tudresden.business.beans.ScheduleManagementBean;
 import de.tudresden.business.businessobjects.Appointment;
 import de.tudresden.business.businessobjects.AppointmentType;
-import de.tudresden.business.businessobjects.Schedule;
 import de.tudresden.business.businessobjects.User;
 
 @ManagedBean(name="showappointments")
@@ -46,17 +45,6 @@ public class ShowAppointmentBean
 			System.out.println("User logged sucessfully");
 			FacesContext.getCurrentInstance().getExternalContext().redirect("tasklist.xhtml");
 		}
-		
-//		User aUser = new User();
-//		aUser.setUserName("user");
-//		aUser.setPassword("user");
-//		aUser.setEmail("user@user.com");
-//		Schedule schedule = new Schedule();
-//		schedule.setUser(aUser);
-//		Appointment appointment = new Appointment();
-//		appointment.setAppointmentType(AppointmentType.AWAY);
-//		appointment.setTitle("Kindergarten");
-//		appointment.setEndDate(new Date(2013, month, date, hrs, min))
 		
 	}
 	

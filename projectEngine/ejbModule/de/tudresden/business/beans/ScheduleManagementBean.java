@@ -5,6 +5,7 @@ import java.util.List;
 import javax.ejb.Remote;
 
 import de.tudresden.business.businessobjects.Appointment;
+import de.tudresden.business.businessobjects.Schedule;
 import de.tudresden.business.businessobjects.User;
 
 @Remote
@@ -14,6 +15,8 @@ public interface ScheduleManagementBean {
 	public void deleteUserAppointment(User user, Appointment appointment);
 
 	public void addUserInAppointment(User user, Appointment appointment);
+	
+	public void createScheduleForUser(User user, Schedule schedule);
 
 	public List<Appointment> getAllUserAppointments(User user);
 }

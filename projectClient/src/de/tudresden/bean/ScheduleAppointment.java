@@ -3,16 +3,31 @@ package de.tudresden.bean;
 import java.util.Date;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 
+import de.tudresden.business.beans.ScheduleManagementBean;
 import de.tudresden.business.beans.UserManagementBean;
+import de.tudresden.business.businessobjects.Appointment;
 import de.tudresden.business.businessobjects.User;
 
 @ManagedBean(name = "ScheduleAppointment")
 @SessionScoped
 public class ScheduleAppointment {
+
+	@ManagedProperty(value = "#{login}")
+	private LoginBean login;
+
+	public void setLogin(LoginBean login) {
+		this.login = login;
+	}
+
+	public LoginBean getLogin() {
+		return login;
+	}
 
 	private String Title;
 	private Date StartDateTime;
@@ -20,18 +35,37 @@ public class ScheduleAppointment {
 	private String Notes;
 	private boolean Private;
 	private String AppointmentType;
-	private List<User> Invitees;
 	private List<User> Invited;
 
 	@EJB
 	UserManagementBean userManagement;
 
+	@EJB
+	ScheduleManagementBean scheduleManagement;
+
+	private User sessionUser;
+
 	public ScheduleAppointment() {
-		Invitees = userManagement.getAllUsers();
+
+	}
+
+	@PostConstruct
+	public void init() {
+		if (login == null) {
+			System.out.println("Login Object is NULL");
+		} else {
+			System.out.println("Login exists!!");
+		}
+		sessionUser = login.getUser();
+		if (sessionUser != null) {
+			System.out.println("Successfully retrived Loggedin user: "
+					+ sessionUser.getUserName());
+		} else {
+			System.out.println("User Could not be retrived");
+		}
 	}
 
 	public boolean CheckDateConflict() {
-
 		Date now = new Date();
 		if (StartDateTime.compareTo(EndDateTime) > 0
 				|| StartDateTime.compareTo(EndDateTime) == 0) {
@@ -42,19 +76,31 @@ public class ScheduleAppointment {
 
 	}
 
-	public boolean Submit() {
+	public void addAppointment() {
+
+		System.out.println("Entered method to save appointment");
 
 		boolean DateCheck = CheckDateConflict();
 		if (!DateCheck) {
-			// Do java script alert
+			System.out.println("DateCheck failed!!");
 		}
 
-		// Call the Bean Function and pass the parameters: Title, StartDateTime,
-		// EndDateTime, Notes, Private, Appointmenttype and Invitee list
-		// The function in the business object should check for invitee conflict
-		// and return true or false
-		// If conflictt exists.... Javascript alert
-		return true;
+		Appointment apt = new Appointment();
+		apt.setTitle(getTitle());
+		apt.setAppointmentType(getAppointmentType());
+		apt.setDescription(getNotes());
+		apt.setStartDate(getStartDateTime());
+		apt.setEndDate(getEndDateTime());
+		apt.setPrivateAppointment(getPrivate());
+
+		System.out.println("Created and initialized appointment");
+
+		for (User u : getInvited()) {
+			scheduleManagement.addUserInAppointment(u, apt);
+		}
+
+		System.out.println("Saved appointment to users schedules");
+
 	}
 
 	/********** Getters and Setters-Start ***/
@@ -106,12 +152,20 @@ public class ScheduleAppointment {
 		return AppointmentType;
 	}
 
-	public void setInvitees(List<User> Invitees) {
-		this.Invitees = Invitees;
+	public List<User> getInvited() {
+		return Invited;
 	}
 
-	public List<User> getInvitees() {
-		return Invitees;
+	public void setInvited(List<User> invited) {
+		Invited = invited;
+	}
+
+	public List<User> getAllUsers() {
+		return userManagement.getAllUsers();
+	}
+
+	public void setAllUsers(List<User> allUsers) {
+		this.allUsers = allUsers;
 	}
 
 	/********** Getters and Setters-End ***/

@@ -11,8 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 @Entity
@@ -67,12 +67,15 @@ public class Schedule implements Serializable
 		this.appointments = appointments;
 	}
 
-	@Override
-	public String toString() {
-		return "Schedule [id=" + id + ", user=" + user + "]";
-	}
-
 	public void addAppointment(Appointment appointment) {
 		appointments.add(appointment);
 	}
+
+	@Override
+	public String toString() {
+		return "Schedule [id=" + id + ", appointments=" + appointments
+				+ ", user=" + user + "]";
+	}
+	
+	
 }
