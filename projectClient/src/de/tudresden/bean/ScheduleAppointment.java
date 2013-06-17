@@ -21,13 +21,6 @@ public class ScheduleAppointment {
 	@ManagedProperty(value = "#{login}")
 	private LoginBean login;
 
-	public void setLogin(LoginBean login) {
-		this.login = login;
-	}
-
-	public LoginBean getLogin() {
-		return login;
-	}
 
 	private String Title;
 	private Date StartDateTime;
@@ -36,6 +29,7 @@ public class ScheduleAppointment {
 	private boolean Private;
 	private String AppointmentType;
 	private List<User> Invited;
+	private User sessionUser;
 
 	@EJB
 	UserManagementBean userManagement;
@@ -43,7 +37,6 @@ public class ScheduleAppointment {
 	@EJB
 	ScheduleManagementBean scheduleManagement;
 
-	private User sessionUser;
 
 	public ScheduleAppointment() {
 
@@ -94,8 +87,11 @@ public class ScheduleAppointment {
 		apt.setPrivateAppointment(getPrivate());
 
 		System.out.println("Created and initialized appointment");
+		
+//		scheduleManagement.addMultipleUsersInAppointment(getInvited(), apt);
 
 		for (User u : getInvited()) {
+			System.out.println("user invited: " + u);
 			scheduleManagement.addUserInAppointment(u, apt);
 		}
 
@@ -164,8 +160,12 @@ public class ScheduleAppointment {
 		return userManagement.getAllUsers();
 	}
 
-	public void setAllUsers(List<User> allUsers) {
-		this.allUsers = allUsers;
+	public void setLogin(LoginBean login) {
+		this.login = login;
+	}
+
+	public LoginBean getLogin() {
+		return login;
 	}
 
 	/********** Getters and Setters-End ***/

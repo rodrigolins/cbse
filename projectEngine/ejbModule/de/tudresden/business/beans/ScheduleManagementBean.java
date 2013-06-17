@@ -12,9 +12,13 @@ import de.tudresden.business.businessobjects.User;
 public interface ScheduleManagementBean {
 	public void createUserAppointment(User user, Appointment appointment);
 
-	public void deleteUserAppointment(User user, Appointment appointment);
+	public void deleteAppointment(Appointment appointment);
+	
+	public void deleteAppointmentById(Integer id);
 
 	public void addUserInAppointment(User user, Appointment appointment);
+	
+	public void addMultipleUsersInAppointment(List<User> users, Appointment appointment);
 	
 	public void createScheduleForUser(User user, Schedule schedule);
 

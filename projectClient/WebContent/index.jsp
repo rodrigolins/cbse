@@ -1,1 +1,1 @@
-<% response.sendRedirect("pages/login.xhtml"); %>
+<% response.sendRedirect("login.xhtml"); %>

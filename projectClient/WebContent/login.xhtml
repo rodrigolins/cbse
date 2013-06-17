@@ -21,6 +21,11 @@
 			<p:growl id="msg" showDetail="true" rendered="true" life="5000" />
 		</div>
 		<h:form>
+			<p:menubar>
+				<p:menuitem url="login.xhtml" value="Schedule Management Project"></p:menuitem>
+				<p:menuitem url="createuser.xhtml" value="Register User"></p:menuitem>
+				<p:menuitem url="listusers.xhtml" value="Show all users"></p:menuitem>
+			</p:menubar>
 			<div id="login">
 				<p:panel id="panel" header="Login">
 					<h:panelGrid columns="2">
@@ -31,8 +36,8 @@
 					</h:panelGrid>
 					<p:commandButton type="submit" value="Login" actionListener="#{login.login}" ajax="false" update="msg" />
 					<p class="copyright">
-						<a href="#{request.contextPath}/pages/createuser.xhtml">Register</a>
-						<a href="#{request.contextPath}/pages/listusers.xhtml">View Users</a>
+						<a href="#{request.contextPath}/createuser.xhtml">Register</a>
+						<a href="#{request.contextPath}/listusers.xhtml">Show all users</a>
 					</p>
 				</p:panel>
 			</div>

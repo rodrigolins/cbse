@@ -2,10 +2,13 @@ package de.tudresden.business.businessobjects;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -26,7 +29,9 @@ public class User implements Serializable
 	@Column(name="email")
 	private String email;
 	
-	@OneToOne(mappedBy="user")
+//	@OneToOne(fetch = FetchType.EAGER, cascade={CascadeType.ALL})
+//	@JoinColumn(name="schedule_id")
+	@OneToOne
 	private Schedule schedule;
 	
 	public User()

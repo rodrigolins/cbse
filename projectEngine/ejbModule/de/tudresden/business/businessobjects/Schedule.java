@@ -1,17 +1,16 @@
 package de.tudresden.business.businessobjects;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -26,19 +25,17 @@ public class Schedule implements Serializable
 	@GeneratedValue
 	private Integer id;
 	
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(
 		      name="schedule_appointment",
 		      joinColumns={@JoinColumn(name="schedule_id", referencedColumnName="id")},
 		      inverseJoinColumns={@JoinColumn(name="appointment_id", referencedColumnName="id")})
 	List<Appointment> appointments;
 	
-	@OneToOne
-	@JoinColumn(name="user_id")
+	@OneToOne(fetch = FetchType.EAGER, mappedBy="schedule")
 	private User user;
 	
 	public Schedule() {
-		this.appointments = new ArrayList<Appointment>();
 	}
 	
 	public Integer getId() {
@@ -68,7 +65,7 @@ public class Schedule implements Serializable
 	}
 
 	public void addAppointment(Appointment appointment) {
-		appointments.add(appointment);
+		this.appointments.add(appointment);
 	}
 
 	@Override

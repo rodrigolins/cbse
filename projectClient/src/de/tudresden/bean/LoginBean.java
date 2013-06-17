@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -15,6 +16,7 @@ import de.tudresden.business.businessobjects.User;
 @SessionScoped
 public class LoginBean
 {
+	
 	private User user;
 	private boolean logged;
 	
@@ -23,9 +25,11 @@ public class LoginBean
 	private String repeatPassword;
 	private String email;
 	
+	private boolean loggedIn;
+	
 	@EJB
 	UserManagementBean userManagement;
-	
+
 	public LoginBean()
 	{
 	}
@@ -37,15 +41,37 @@ public class LoginBean
 		if (currentUser != null)
 		{
 			System.out.println("Trying to login");
-			FacesContext.getCurrentInstance().getExternalContext().redirect("tasklist.xhtml");
 			this.setUser(currentUser);
 			System.out.println("User logged successfuly");
+			this.loggedIn = true;
+			FacesContext.getCurrentInstance().getExternalContext().redirect("pages/tasklist.xhtml");
 		}
 		else
 		{
+			FacesMessage msg = new FacesMessage("Login error!", "ERROR MSG");
+	        msg.setSeverity(FacesMessage.SEVERITY_ERROR);
+	        FacesContext.getCurrentInstance().addMessage(null, msg);
+	
 			System.out.println("Returned User is null");
 		}
 	}
+	
+	public void logout() {
+        // Set the paremeter indicating that user is logged in to false
+        loggedIn = false;
+         
+        // Set logout message
+        FacesMessage msg = new FacesMessage("Logout success!", "INFO MSG");
+        msg.setSeverity(FacesMessage.SEVERITY_INFO);
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+        try {
+			FacesContext.getCurrentInstance().getExternalContext().redirect("../login.xhtml");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+//        return navigationBean.toLogin();
+    }
 	
 	public boolean register()
 	{
@@ -121,5 +147,13 @@ public class LoginBean
 	public void setEmail(String email)
 	{
 		this.email = email;
+	}
+	
+	public boolean isLoggedIn() {
+		return loggedIn;
+	}
+	
+	public void setLogged(boolean logged) {
+		this.logged = logged;
 	}
 }

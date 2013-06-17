@@ -8,6 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import de.tudresden.business.businessobjects.Schedule;
 import de.tudresden.business.businessobjects.User;
 
 @Stateful
@@ -29,6 +30,9 @@ public class UserManagementBeanImpl implements UserManagementBean
 		System.out.println("Trying to persist user: " + user);
 		try
 		{
+			Schedule schedule = new Schedule();
+			em.persist(schedule);
+			user.setSchedule(schedule);
 			em.persist(user);
 			System.out.println("Data persisted successfuly");
 		}

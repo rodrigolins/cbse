@@ -6,10 +6,10 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -35,10 +35,11 @@ public class Appointment implements Serializable
 	@Column(name="privateappointment")
 	private Boolean privateAppointment;
 	
-	@ManyToMany(mappedBy="appointments")
+	@ManyToMany(fetch = FetchType.EAGER ,mappedBy="appointments")
 	private List<Schedule> schedules;
 
 	public Appointment() {
+//		this.schedules = new ArrayList<Schedule>();
 	}
 	
 	public Appointment(Integer id, Date startDate, Date endDate, String title, String description, String appointmentType, Boolean privateAppointment, List<Schedule> schedules)

@@ -18,9 +18,10 @@
 <h:body>
 	<h:form>
 		<p:menubar>
+			<p:menuitem url="../login.xhtml" value="Schedule Management Project"></p:menuitem>
 			<p:menuitem url="tasklist.xhtml" value="Appointment List"></p:menuitem>
 			<p:menuitem url="ScheduleAppointment.xhtml" value="New Appointment"></p:menuitem>
-			<p:menuitem url="http://google.com" value="Logout"></p:menuitem>
+			<p:menuitem actionListener="#{login.logout}" value="Logout"></p:menuitem>
 		</p:menubar>
 	</h:form>
 	<div class="ui-growl">
