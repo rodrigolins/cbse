@@ -40,10 +40,14 @@
 					<h:outputText value="#{appointment.description}" />
 				</p:column>
 				<p:column headerText="Start Date">
-					<h:outputText value="#{appointment.startDate}" />
+					<h:outputText value="#{appointment.startDate}">
+						<f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+					</h:outputText>
 				</p:column>
 				<p:column headerText="End Date">
-					<h:outputText value="#{appointment.endDate}" />
+					<h:outputText value="#{appointment.endDate}">
+						<f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+					</h:outputText>
 				</p:column>
 				<p:column headerText="Private">
 					<h:outputText value="#{appointment.privateText}" />
