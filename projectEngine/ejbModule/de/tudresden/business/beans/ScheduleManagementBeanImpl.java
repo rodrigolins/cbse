@@ -34,57 +34,18 @@ public class ScheduleManagementBeanImpl implements ScheduleManagementBean {
 	 */
 	public void createUserAppointment(User user, Appointment appointment) {
 		
-		System.out.println("1");
 		Schedule schedule = user.getSchedule();
-		System.out.println("2");
 		schedule.addAppointment(appointment);
-		System.out.println("3");
 		em.persist(appointment);
 		em.merge(schedule);
 		em.merge(user);
-		
-		
-		System.out.println("4");
-		System.out.println("5");
-		
 		System.out.println("Sucessfully persisted the new appointment");
 	}
 	
-	public void addMultipleUsersInAppointment(List<User> users, Appointment appointment)
-	{
-//		System.out.println("0");
-//		em.persist(appointment);
-		
-		for(User user : users)
-		{
-			System.out.println("1");
-//			Schedule schedule = 
-			user.getSchedule().addAppointment(appointment);
-//			System.out.println(schedule);
-			System.out.println("2");
-//			List<Appointment> appointments = schedule.getAppointments();
-			System.out.println("3");
-//			appointments.add(appointment);
-			System.out.println("4");
-//			schedule.setAppointments(appointments);
-			System.out.println("5");
-//			em.merge(schedule);
-		}
-	
-		
-		System.out.println("Sucessfully persisted the new appointment");
-	}
-
 	public void addUserInAppointment(User user, Appointment appointment) {
 		createUserAppointment(user, appointment);
 	}
 	
-	public void createScheduleForUser(User user, Schedule schedule)
-	{
-		schedule.setUser(user);
-		em.persist(schedule);
-	}
-
 	/**
 	 * This functions returns all the {@link Appointment}s for a {@link User}
 	 * 
@@ -94,10 +55,6 @@ public class ScheduleManagementBeanImpl implements ScheduleManagementBean {
 	 */
 	public List<Appointment> getAllUserAppointments(User user)
 	{
-		if(user.getSchedule() == null)
-		{
-			return null;
-		}
 		List<Appointment> appointments = user.getSchedule().getAppointments();
 		return appointments;
 	}

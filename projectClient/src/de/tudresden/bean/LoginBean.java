@@ -81,6 +81,7 @@ public class LoginBean
 		{
 			User user = new User(userName, password, email);
 			registered = userManagement.addUser(user);
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"User", "Created Successfuly"));
 		}
 		
 		if (registered)

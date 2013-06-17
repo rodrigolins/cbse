@@ -24,6 +24,7 @@
 			<p:menuitem actionListener="#{login.logout}" value="Logout"></p:menuitem>
 		</p:menubar>
 	</h:form>
+	<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
 	<div class="ui-growl">
 		<p:growl id="msg" showDetail="true" rendered="true" life="5000" />
 	</div>
@@ -44,7 +45,6 @@
 				<h:outputText value="End Time" />
 				<p:calendar value="#{ScheduleAppointment.endDateTime}"
 					pattern="dd/MM/yyyy HH:mm">
-
 				</p:calendar>
 
 				<h:outputText value=" Appointment Type:" />

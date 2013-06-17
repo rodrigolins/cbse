@@ -18,9 +18,5 @@ public interface ScheduleManagementBean {
 
 	public void addUserInAppointment(User user, Appointment appointment);
 	
-	public void addMultipleUsersInAppointment(List<User> users, Appointment appointment);
-	
-	public void createScheduleForUser(User user, Schedule schedule);
-
 	public List<Appointment> getAllUserAppointments(User user);
 }

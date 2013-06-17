@@ -1,17 +1,21 @@
 package de.tudresden.bean;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 
 import de.tudresden.business.beans.ScheduleManagementBean;
 import de.tudresden.business.beans.UserManagementBean;
 import de.tudresden.business.businessobjects.Appointment;
+import de.tudresden.business.businessobjects.Schedule;
 import de.tudresden.business.businessobjects.User;
 
 @ManagedBean(name = "ScheduleAppointment")
@@ -37,7 +41,6 @@ public class ScheduleAppointment {
 	@EJB
 	ScheduleManagementBean scheduleManagement;
 
-
 	public ScheduleAppointment() {
 
 	}
@@ -59,14 +62,12 @@ public class ScheduleAppointment {
 	}
 
 	public boolean CheckDateConflict() {
-		Date now = new Date();
 		if (StartDateTime.compareTo(EndDateTime) > 0
 				|| StartDateTime.compareTo(EndDateTime) == 0) {
 			return false;
 		} else {
 			return true;
 		}
-
 	}
 
 	public void addAppointment() {
@@ -78,6 +79,7 @@ public class ScheduleAppointment {
 			System.out.println("DateCheck failed!!");
 		}
 
+		System.out.println("Retriving and creating a new appointment object");
 		Appointment apt = new Appointment();
 		apt.setTitle(getTitle());
 		apt.setAppointmentType(getAppointmentType());
@@ -85,15 +87,59 @@ public class ScheduleAppointment {
 		apt.setStartDate(getStartDateTime());
 		apt.setEndDate(getEndDateTime());
 		apt.setPrivateAppointment(getPrivate());
+		
+		// Private appointments are only allowed for one user
+		System.out.println("Checking if it is a private appointment and there is only one user");
+		if(apt.getPrivateAppointment() && getInvited().size() > 1)
+		{
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Appointment ", "It is not possible to crete a private appointe for more than one person"));
+			return;
+		}
 
 		System.out.println("Created and initialized appointment");
 		
-//		scheduleManagement.addMultipleUsersInAppointment(getInvited(), apt);
-
-		for (User u : getInvited()) {
+		System.out.println("Checking if the new appointment overlap some other appointments");
+		for (User u : getInvited())
+		{
 			System.out.println("user invited: " + u);
-			scheduleManagement.addUserInAppointment(u, apt);
+			Schedule schedule = u.getSchedule();
+			List<Appointment> appointments = schedule.getAppointments();
+			if(appointments != null)
+			{
+				List<Appointment> appointmentsResultList = new ArrayList<Appointment>();
+				for(Appointment appointment : appointments)
+				{
+					Date startDate = appointment.getStartDate();
+					Date endDate = appointment.getEndDate();
+					if(apt.getStartDate().before(startDate) && apt.getEndDate().after(endDate))
+					{
+						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Appointment", "Created Successfuly"));
+					}
+					else if(apt.getEndDate().after(startDate) && apt.getEndDate().before(endDate))
+					{
+						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Appointment", "Created Successfuly"));
+					}
+					else if(apt.getStartDate().after(startDate) && apt.getStartDate().before(endDate))
+					{
+						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Appointment", "Created Successfuly"));
+					}
+					else if(apt.getStartDate().after(startDate) && apt.getEndDate().before(endDate))
+					{
+						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Appointment", "Created Successfuly"));
+					}
+					else
+					{
+						// Can add
+					}
+				}
+			}
+			else
+			{
+				scheduleManagement.addUserInAppointment(u, apt);
+			}
 		}
+		
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Appointment", "Created Successfuly"));
 
 		System.out.println("Saved appointment to users schedules");
 
