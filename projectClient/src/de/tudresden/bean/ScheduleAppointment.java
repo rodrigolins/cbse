@@ -1,6 +1,5 @@
 package de.tudresden.bean;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -78,6 +77,12 @@ public class ScheduleAppointment {
 		if (!DateCheck) {
 			System.out.println("DateCheck failed!!");
 		}
+		
+		if(getEndDateTime().before(getStartDateTime()))
+		{
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Appointment ", "End date can't be before Start date."));
+			return;
+		}
 
 		System.out.println("Retriving and creating a new appointment object");
 		Appointment apt = new Appointment();
@@ -106,32 +111,56 @@ public class ScheduleAppointment {
 			List<Appointment> appointments = schedule.getAppointments();
 			if(appointments != null)
 			{
-				List<Appointment> appointmentsResultList = new ArrayList<Appointment>();
 				for(Appointment appointment : appointments)
 				{
 					Date startDate = appointment.getStartDate();
 					Date endDate = appointment.getEndDate();
 					if(apt.getStartDate().before(startDate) && apt.getEndDate().after(endDate))
 					{
-						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Appointment", "Created Successfuly"));
+						System.out.println("Error 1");
+						System.out.println("Saved appointment, startDate: " + apt.getStartDate() + " | endDate: " + apt.getEndDate());
+						System.out.println("New appointment, startDate: " + startDate + " | endDate: " + endDate);
+						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Appointment", "Date overlaping: 1 - for user: " + u));
+						return;
 					}
 					else if(apt.getEndDate().after(startDate) && apt.getEndDate().before(endDate))
 					{
-						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Appointment", "Created Successfuly"));
+						System.out.println("Error 2");
+						System.out.println("Saved appointment, startDate: " + apt.getStartDate() + " | endDate: " + apt.getEndDate());
+						System.out.println("New appointment, startDate: " + startDate + " | endDate: " + endDate);
+						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Appointment", "Date overlaping: 2 - for user: " + u));
+						return;
 					}
 					else if(apt.getStartDate().after(startDate) && apt.getStartDate().before(endDate))
 					{
-						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Appointment", "Created Successfuly"));
+						System.out.println("Error 3");
+						System.out.println("Saved appointment, startDate: " + apt.getStartDate() + " | endDate: " + apt.getEndDate());
+						System.out.println("New appointment, startDate: " + startDate + " | endDate: " + endDate);
+						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Appointment", "Date overlaping: 3 - for user: " + u));
+						return;
 					}
 					else if(apt.getStartDate().after(startDate) && apt.getEndDate().before(endDate))
 					{
-						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Appointment", "Created Successfuly"));
+						System.out.println("Error 4");
+						System.out.println("Saved appointment, startDate: " + apt.getStartDate() + " | endDate: " + apt.getEndDate());
+						System.out.println("New appointment, startDate: " + startDate + " | endDate: " + endDate);
+						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Appointment", "Date overlaping: 4 - for user: " + u));
+						return;
+					}
+					else if(apt.getStartDate().equals(startDate) && apt.getEndDate().equals(endDate))
+					{
+						System.out.println("Error 5");
+						System.out.println("Saved appointment, startDate: " + apt.getStartDate() + " | endDate: " + apt.getEndDate());
+						System.out.println("New appointment, startDate: " + startDate + " | endDate: " + endDate);
+						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Appointment", "Date overlaping: 5 - for user: " + u));
+						return;
 					}
 					else
 					{
-						// Can add
+						System.out.println("No colisions with user: " + u);
 					}
 				}
+				scheduleManagement.addUserInAppointment(u, apt);
 			}
 			else
 			{

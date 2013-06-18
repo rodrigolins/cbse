@@ -39,6 +39,8 @@ public class ScheduleManagementBeanImpl implements ScheduleManagementBean {
 		em.persist(appointment);
 		em.merge(schedule);
 		em.merge(user);
+		em.flush();
+		
 		System.out.println("Sucessfully persisted the new appointment");
 	}
 	
@@ -58,6 +60,7 @@ public class ScheduleManagementBeanImpl implements ScheduleManagementBean {
 		List<Appointment> appointments = user.getSchedule().getAppointments();
 		return appointments;
 	}
+	
 
 	@Override
 	public void deleteAppointment(Appointment appointment) {

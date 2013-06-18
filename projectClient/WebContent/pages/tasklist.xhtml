@@ -22,7 +22,7 @@
 				<p:menuitem url="../login.xhtml" value="Schedule Management Project"></p:menuitem>
 				<p:menuitem url="tasklist.xhtml" value="Appointment List"></p:menuitem>
 				<p:menuitem url="ScheduleAppointment.xhtml" value="New Appointment"></p:menuitem>
-				<p:menuitem actionListener="#{login.logout}" value="Logout"></p:menuitem>
+				<p:menuitem actionListener="#{login.logout}"  value="New Appointment"></p:menuitem>
 			</p:menubar>
 		</h:form>
 
@@ -32,7 +32,7 @@
 
 		<h:form>
 			<p:dataTable var="appointment"
-				value="#{showappointments.userAppointments}">
+				value="#{showappointments.appointments}">
 				<p:column width="50" headerText="Title">
 					<h:outputText value="#{appointment.title}" />
 				<p:column width="50" headerText="Description">

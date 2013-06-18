@@ -7,15 +7,15 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
+import javax.faces.bean.ViewScoped;
 
 import de.tudresden.business.beans.ScheduleManagementBean;
 import de.tudresden.business.businessobjects.Appointment;
 import de.tudresden.business.businessobjects.User;
 
 @ManagedBean(name="showappointments")
-@SessionScoped
+//@SessionScoped
+@ViewScoped
 public class ShowAppointmentBean
 {
 	@EJB
@@ -26,6 +26,7 @@ public class ShowAppointmentBean
 	
 	private User sessionUser;
 	private List<Appointment> appointments;
+	
 	
 	@PostConstruct
 	public void init() throws IOException
@@ -38,6 +39,7 @@ public class ShowAppointmentBean
 		sessionUser = loginBean.getUser();
 		if (sessionUser != null) {
 			System.out.println("Successfully retrived Loggedin user: " + sessionUser.getUserName());
+			this.appointments = getUserAppointments();
 		} else {
 			System.out.println("User Could not be retrived");
 		}
@@ -48,8 +50,7 @@ public class ShowAppointmentBean
 	}
 	
 	public List<Appointment> getUserAppointments() {
-		this.appointments = scheduleManagement.getAllUserAppointments(sessionUser);
-		return this.appointments;
+		return scheduleManagement.getAllUserAppointments(sessionUser);
 	}
 	
 	public void deleteAppointment(Integer id)
@@ -86,7 +87,7 @@ public class ShowAppointmentBean
 		this.sessionUser = sessionUser;
 	}
 	public List<Appointment> getAppointments() {
-		return appointments;
+		return appointments ;
 	}
 	public void setAppointments(List<Appointment> appointments) {
 		this.appointments = appointments;
