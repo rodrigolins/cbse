@@ -1,5 +1,5 @@
 RemoteSystemsTempFiles/*
-.classpath
+#.classpath
 .metadata/
 *.class
 
